@@ -18,7 +18,7 @@ object IPv4Util {
         p1+p2+p3+p4+p5+p7+p8+p9+p10 match {
           case BinaryTuple(head,tail) =>
             val checkCode = BigInt(Integer.valueOf((head + tail).toString(BINARY_NUM).reverse.padTo(16,'0').reverse.map(c => if(c == '1')'0'else '1').toString,BINARY_NUM))
-            List(p1,p2,p3,p4,p5,checkCode,p7,p8,p9,p10).map(s=>s.toString(HEX_NUM).reverse.padTo(4,'0').reverse).mkString(" ")
+            List(p1,p2,p3,p4,p5,checkCode,p7,p8,p9,p10).map(_.toString(HEX_NUM).reverse.padTo(4,'0').reverse).mkString(" ")
           case _ => "" //ignore
         }
       case _ =>
@@ -33,9 +33,8 @@ object IPv4Util {
   object BinaryTuple{
     def unapply(bi : BigInt):Option[(BigInt,BigInt)] = {
       Try{
-        val biBinary = bi.toString(BINARY_NUM)
-        val subNum = if(biBinary.length%4== 0) 4 else biBinary.length%4
-        (BigInt(Integer.valueOf(biBinary.substring(0,subNum),BINARY_NUM)),BigInt(Integer.valueOf(biBinary.substring(subNum),BINARY_NUM)))
+        val biBinary = bi.toString(BINARY_NUM).reverse.padTo(20,'0').reverse
+        (BigInt(Integer.valueOf(biBinary.take(4),BINARY_NUM)),BigInt(Integer.valueOf(biBinary.drop(4),BINARY_NUM)))
       }.toOption
     }
   }
