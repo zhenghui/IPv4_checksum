@@ -39,4 +39,22 @@ object IPv4Util {
     }
   }
 
+  def main(args: Array[String]) {
+//    assert(checksum2("4500 0073 0000 4000 4011 0000 c0a8 0001 c0a8 00c7") == "4500 0073 0000 4000 4011 b861 c0a8 0001 c0a8 00c7")
+    val i = 111
+    println(i & 0xffff)
+
+  }
+
+  def checksum2(header: String): String = {
+    val bytes = header.split(" ").toArray
+    val sum = bytes.map(byte => Integer.parseInt(byte, 16)).sum
+    val checksum = Iterator.iterate(sum) { s =>
+      (s & 0xffff) + ((s >> 16) & 0xffff)
+    } find (_ <= 0xffff)
+    bytes(5) = ((~checksum.get) & 0x0ffff).toHexString
+
+    bytes.mkString(" ")
+  }
+
 }
