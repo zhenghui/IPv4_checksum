@@ -6,6 +6,7 @@ import scala.util.Try
  * User: zhenghui
  * Date: 15-11-3
  * Time: 下午2:29
+ * https://en.wikipedia.org/wiki/IPv4_header_checksum 
  */
 object IPv4Util {
 
